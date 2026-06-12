@@ -1,5 +1,10 @@
 package com.example.entities;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.example.models.Genero;
 
 import jakarta.persistence.Entity;
@@ -36,5 +41,11 @@ public class Empleado {
     //Especificar que para que el enum sea los valores escritos que no la posicion (HOMBRE, MUJER, OTRO en vez de 0, 1, 2)
     @Enumerated(EnumType.STRING)
     private Genero genero;
+
+    //Especificar como quieres que se guarde el formato de la fecha
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate fechaAlta;
+
+    private BigDecimal salario;
     
 }
