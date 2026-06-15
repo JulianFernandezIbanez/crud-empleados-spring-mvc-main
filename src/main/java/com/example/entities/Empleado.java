@@ -1,8 +1,8 @@
 package com.example.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,8 +33,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class Empleado {
+public class Empleado implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     //Hacer que un campo sea la primary key, auto incremental y not null en la tabla a crear
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
