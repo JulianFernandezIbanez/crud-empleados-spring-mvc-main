@@ -1,15 +1,14 @@
-package com.example.dao;
+package com.example.services;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import com.example.entities.Correo;
 import com.example.entities.Empleado;
-import java.util.List;
 
+public interface CorreoService {
 
-
-public interface CorreoDao extends JpaRepository<Correo,Integer> {
-
+    List<Correo> getAllCorreos();
+    Correo saveCorreo(Correo correo);
     boolean existsByEmpleado(Empleado empleado);
     void deleteByEmpleado(Empleado empleado);
     List<Correo> findByEmpleado(Empleado empleado);
