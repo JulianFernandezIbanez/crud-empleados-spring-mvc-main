@@ -1,0 +1,32 @@
+package com.example.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.dao.DepartamentoDao;
+import com.example.entities.Departamento;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+public class DepartamentoServiceImpl implements DepartamentoService {
+
+    private final DepartamentoDao departamentoDao;
+
+    @Override
+    public List<Departamento> getAllDepartamentos() {
+        
+        return departamentoDao.findAll();
+
+    }
+
+    @Override
+    public Departamento saveDepartamento(Departamento departamento) {
+
+        return departamentoDao.save(departamento);
+
+    }
+
+}
