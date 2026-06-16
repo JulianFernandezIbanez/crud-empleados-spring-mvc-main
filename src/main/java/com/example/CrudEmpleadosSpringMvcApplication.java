@@ -2,7 +2,6 @@ package com.example;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
@@ -14,10 +13,8 @@ import com.example.entities.Departamento;
 import com.example.entities.Empleado;
 import com.example.entities.Telefono;
 import com.example.models.Genero;
-import com.example.services.CorreoService;
 import com.example.services.DepartamentoService;
 import com.example.services.EmpleadoService;
-import com.example.services.TelefonoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,8 +24,8 @@ public class CrudEmpleadosSpringMvcApplication implements CommandLineRunner {
 
 	private final EmpleadoService empleadoService;
 	private final DepartamentoService departamentoService;
-	private final CorreoService correoService;
-	private final TelefonoService telefonoService;
+	//private final CorreoService correoService;
+	//private final TelefonoService telefonoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CrudEmpleadosSpringMvcApplication.class, args);
@@ -99,7 +96,36 @@ public class CrudEmpleadosSpringMvcApplication implements CommandLineRunner {
 
 		empleadoService.saveEmpleado(empleado1);
 
+		Empleado empleado2 = Empleado.builder()
+			.nombre("Josefa")
+			.primerApellido("Martinez")
+			.segundApellido("Mora")
+			.fechaAlta(LocalDate.of(2019, 6, 01))
+			.genero(Genero.MUJER)
+			.salario(new BigDecimal(3000))
+			.departamento(departamento3)
+			.emails(Set.of(
+				Correo.builder()
+					.email("JMM1@gmail.com")
+					.build(),
+				Correo.builder()
+					.email("JMM2@gmail.com")
+					.build()
+				))
+			.telefonos(Set.of(
+				Telefono.builder()
+					.numero("123456789")
+					.build(),
+				Telefono.builder()
+					.numero("987654321")
+					.build()
+				))
+			.build();
+		
+		empleado2.getEmails().forEach(Correo -> Correo.setEmpleado(empleado2));
+		empleado2.getTelefonos().forEach(Telefono -> Telefono.setEmpleado(empleado2));
 
+		empleadoService.saveEmpleado(empleado2);
 
 	}
 
