@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+		<meta charset="UTF-8">
+        <title>crud-empleados</title>
+    </head>
+    <body>
+        <h1>Listado de Empleados</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Primer Apellido</th>
+					<th>Segundo Apellido</th>
+					<th>Fecha de Alta</th>
+					<th>Genero</th>
+					<th>Salario</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="empleado : ${empleados}">
+					<td th:text="${empleado.Nombre}"></td>
+					<td th:text="${empleado.primerApellido}"></td>
+					<td th:text="${empleado.segundApellido}"></td>
+					<td th:text="${empleado.fechaAlta}"></td>
+					<td th:text="${empleado.genero}"></td>
+					<td th:text="${empleado.salario}"></td>
+				</tr>
+			</tbody>
+		</table>
+    </body>
+</html>
