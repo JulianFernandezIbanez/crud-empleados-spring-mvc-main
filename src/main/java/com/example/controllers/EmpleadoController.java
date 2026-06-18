@@ -1,5 +1,9 @@
 package com.example.controllers;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.entities.Correo;
 import com.example.entities.Empleado;
+import com.example.entities.Telefono;
 import com.example.services.DepartamentoService;
 import com.example.services.EmpleadoService;
 
@@ -59,6 +65,28 @@ public class EmpleadoController {
 		LOG.info(empleado.toString());
 		LOG.info(numtlf);
 		LOG.info(emails);
+
+		Set<Telefono> numerostlf = new HashSet<>();
+		Set<Correo> dirCorreos = new HashSet<>();
+	
+		if(!numtlf.isEmpty() && !numtlf.isBlank()){
+			
+			String[] arraynumTlf = numtlf.split(";");
+			List<String> listadoNumeros = Arrays.asList(arraynumTlf);
+			listadoNumeros.forEach(numero -> {numerostlf.add(Telefono.builder().numero(numero).empleado(empleado).build());});
+			empleado.setTelefonos(numerostlf);
+
+		}
+
+		if(!emails.isEmpty() && !emails.isBlank()){
+			
+			String[] direcciones = emails.split(";");
+			List<String> listadoCorreos = Arrays.asList(direcciones);
+			listadoCorreos.forEach(correo -> {dirCorreos.add(Correo.builder().email(correo).empleado(empleado).build());});
+			empleado.setEmails(dirCorreos);
+		}
+
+		empleadoService.saveEmpleado(empleado);
 
 		return "redirect:/empleados/listar";
 	}
