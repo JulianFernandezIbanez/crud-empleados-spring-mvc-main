@@ -6,6 +6,9 @@
     </head>
     <body>
         <h1>Listado de Empleados</h1>
+		<div>
+			<a th:href="@{/empleados/alta}">Dar de alta/modificacion a un empleado</a>
+		</div>
 		<table>
 			<thead>
 				<tr>
@@ -21,7 +24,7 @@
 				<tr th:each="empleado : ${empleados}">
 					<td th:text="${empleado.Nombre}"></td>
 					<td th:text="${empleado.primerApellido}"></td>
-					<td th:text="${empleado.segundApellido}"></td>
+					<td th:text="${empleado.segundoApellido}"></td>
 					<td th:text="${empleado.fechaAlta}"></td>
 					<td th:text="${empleado.genero}"></td>
 					<td th:text="${empleado.salario}"></td>

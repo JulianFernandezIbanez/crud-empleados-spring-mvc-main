@@ -36,7 +36,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"departamento", "emails", "telefonos"})
+@ToString(exclude = {"emails", "telefonos"})
 @Builder
 public class Empleado implements Serializable {
 
@@ -48,7 +48,7 @@ public class Empleado implements Serializable {
 
     private String nombre;
     private String primerApellido;
-    private String segundApellido;
+    private String segundoApellido;
 
     //Especificar que para que el enum sea los valores escritos que no la posicion (HOMBRE, MUJER, OTRO en vez de 0, 1, 2)
     @Enumerated(EnumType.STRING)

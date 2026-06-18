@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Formulario</title>
+    </head>
+    <body>
+		<h1>Formulario de Alta o Modificacion</h1>
+		<fieldset>
+			<legend>Formulario</legend>
+			<form th:action="@{/empleados/persistir}" method="post" th:object="${empleado}">
+				<input type="hidden" th:field="*{id}">
+				<div>
+					<label for="nombre">Nombre: </label> 
+					<input type="text" id="nombre" th:field="*{nombre}" required>
+				</div>
+				<div>
+					<label for="primerApellido">Primer Apellido: </label> 
+					<input type="text" id="primerApellido" th:field="*{primerApellido}" required>
+				</div>
+				<div>
+					<label for="segundoApellido">Segundo Apellido: </label> 
+					<input type="text" id="segundoApellido" name="segundoApellido" th:field="*{segundoApellido}">
+				</div>
+				<div>
+					<label for="fechaAlta">Fecha de Alta: </label> 
+					<input type="date" name="fechaAlta" id="fechaAlta" th:field="*{fechaAlta}">
+				</div>
+				<div>
+					<fieldset>
+						<legend>Genero</legend>
+						<label for="hombre">Hombre</label><input type="radio" name="genero" id="hombre" value="HOMBRE" th:field="*{genero}">
+						<br>
+						<label for="mujer">Mujer</label><input type="radio" name="genero" id="mujer" value="MUJER" th:field="*{genero}">
+						<br>
+						<label for="otro">Otro</label><input type="radio" name="genero" id="otro" value="OTRO" th:field="*{genero}">
+					</fieldset>
+				</div>
+				<div>
+					<label for="salario">Salario: </label> 
+					<input type="text" id="salario" name="salario" th:field="*{salario}">
+				</div>
+				<div>
+					<label for="departamentos">Departamentos</label>
+					<select id="departamentos" name="departamento">
+						<option value=""></option>
+						<option th:each="dpto : ${departamentos}" th:value="${dpto.id}" th:text="${dpto.nombre}"></option>
+					</select>
+				</div>
+				<div>
+					<label for="telefonos">Telefonos: </label> 
+					<input type="text" id="telefonos" name="numerostlf" placeholder="Mas de 1 separado por ;">
+				</div>
+				<div>
+					<label for="correos">Correos: </label> 
+					<input type="text" id="correos" name="correos" placeholder="Mas de 1 separado por ;">
+				</div>
+				<input type="submit" value="Alta/Modificacion">
+			</form>
+		</fieldset>
+    </body>
+</html>
