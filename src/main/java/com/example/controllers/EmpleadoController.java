@@ -44,13 +44,14 @@ public class EmpleadoController {
 
 	//Metodo que muestra el formulario de cracion de empleado
 	@GetMapping("/alta")
-	public String mostrarformularioAlta(Model model){
+	public String mostrarformularioAlta(Model model,
+		@ModelAttribute Empleado empleado){
 
 		model.addAttribute("departamentos", departamentoService.getAllDepartamentos());
 		
 		//Se enecesita enviar un objeto empleado vacio para que se vinculen sus propiedades
 		//con cada control (elemento input, select, etc) del formulario
-		model.addAttribute("empleado", new Empleado());
+		//model.addAttribute("empleado", new Empleado());
 
 		return "formularioAltaModificacion";
 	}
