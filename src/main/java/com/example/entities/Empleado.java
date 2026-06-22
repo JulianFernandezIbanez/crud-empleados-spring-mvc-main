@@ -21,6 +21,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,8 +49,17 @@ public class Empleado implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @NotNull(message = "El campo nombre no puede estar vacio")
+    @NotBlank(message = "El campo nombre no puede contener unicamente espacios en blanco")
+    @Size(min = 4, max = 30, message = "No cumples los requisitos (minimo 4 y maximo 30 caracteres)")
     private String nombre;
+
+    @NotNull(message = "El campo Primer Apellido no puede estar vacio")
+    @NotBlank(message = "El campo nombre no puede contener unicamente espacios en blanco")
+    @Size(min = 4, max = 30, message = "No cumples los requisitos (minimo 4 y maximo 30 caracteres)")
     private String primerApellido;
+
+
     private String segundoApellido;
 
     //Especificar que para que el enum sea los valores escritos que no la posicion (HOMBRE, MUJER, OTRO en vez de 0, 1, 2)

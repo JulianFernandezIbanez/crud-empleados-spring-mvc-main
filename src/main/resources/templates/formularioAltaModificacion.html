@@ -3,6 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Formulario</title>
+		<style>
+			.error{
+				color: red;
+				font-weight: bold;
+			}
+		</style>
     </head>
     <body>
 		<h1>Formulario de Alta o Modificacion</h1>
@@ -13,10 +19,16 @@
 				<div>
 					<label for="nombre">Nombre: </label> 
 					<input type="text" id="nombre" th:field="*{nombre}" required>
+					<p th:if="${#fields.hasErrors('nombre')}" 
+						th:class="${#fields.hasErrors('nombre')} ? error"
+						th:errors="*{nombre}">Nombre Invalido</p>
 				</div>
 				<div>
 					<label for="primerApellido">Primer Apellido: </label> 
 					<input type="text" id="primerApellido" th:field="*{primerApellido}" required>
+					<p th:if="${#fields.hasErrors('primerApellido')}" 
+						th:class="${#fields.hasErrors('primerApellido')} ? error"
+						th:errors="*{primerApellido}">Apellido Invalido</p>
 				</div>
 				<div>
 					<label for="segundoApellido">Segundo Apellido: </label> 

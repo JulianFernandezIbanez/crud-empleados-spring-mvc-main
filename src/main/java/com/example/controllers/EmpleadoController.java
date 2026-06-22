@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.example.entities.Telefono;
 import com.example.services.DepartamentoService;
 import com.example.services.EmpleadoService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
@@ -58,14 +60,28 @@ public class EmpleadoController {
 
 	//Metodo para recibir los datos del formulario por el metodo post
 	@PostMapping("/persistir")
-	public String procesarFormularioAltaModificacion(@ModelAttribute Empleado empleado, 
+	public String procesarFormularioAltaModificacion(
+		@Valid
+		@ModelAttribute Empleado empleado,
+		BindingResult result,
 		@RequestParam(name = "numerostlf") String numtlf, 
-		@RequestParam(name = "correos") String emails){
+		@RequestParam(name = "correos") String emails,
+		Model model)
+	{
 
-		LOG.info("Empleado recibido :");
+		//Comprobacion de errores en la informacion recibida del formulario
+		if(result.hasErrors()){
+
+			model.addAttribute("departamentos",departamentoService.getAllDepartamentos());
+
+			return "formularioAltaModificacion";
+
+		}
+			
+		/*LOG.info("Empleado recibido :");
 		LOG.info(empleado.toString());
 		LOG.info(numtlf);
-		LOG.info(emails);
+		LOG.info(emails);*/
 
 		Set<Telefono> numerostlf = new HashSet<>();
 		Set<Correo> dirCorreos = new HashSet<>();
