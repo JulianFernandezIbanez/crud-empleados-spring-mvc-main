@@ -21,8 +21,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,15 +54,19 @@ public class Empleado implements Serializable {
 
     @NotNull(message = "El campo nombre no puede estar vacio")
     @NotBlank(message = "El campo nombre no puede contener unicamente espacios en blanco")
-    @Size(min = 4, max = 30, message = "No cumples los requisitos (minimo 4 y maximo 30 caracteres)")
+    @Size(min = 4, max = 30, message = "El nombre no cumple los requisitos (minimo 4 y maximo 30 caracteres)")
+    @Pattern(regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúüñ]+(\s)?)+$", message = "El nombre solo puede contener los caracteres de la A a la Z y su primer caracter a de ser una letra mayuscula (A-Z)")
     private String nombre;
 
     @NotNull(message = "El campo Primer Apellido no puede estar vacio")
-    @NotBlank(message = "El campo nombre no puede contener unicamente espacios en blanco")
+    @NotBlank(message = "El campo Primer Apellido no puede contener unicamente espacios en blanco")
     @Size(min = 4, max = 30, message = "No cumples los requisitos (minimo 4 y maximo 30 caracteres)")
+    @Pattern(regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúüñ]+(\s)?)+$", message = "El Primer Apellido solo puede contener los caracteres de la A a la Z y su primer caracter a de ser una letra mayuscula (A-Z)")
     private String primerApellido;
 
-
+    @NotBlank(message = "El campo Segundo Apellido no puede contener unicamente espacios en blanco")
+    @Size(max = 30, message = "No cumples los requisitos (minimo 4 y maximo 30 caracteres)")
+    @Pattern(regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúüñ]+(\s)?)+$", message = "El Segundo Apellido solo puede contener los caracteres de la A a la Z y su primer caracter a de ser una letra mayuscula (A-Z)")
     private String segundoApellido;
 
     //Especificar que para que el enum sea los valores escritos que no la posicion (HOMBRE, MUJER, OTRO en vez de 0, 1, 2)
@@ -68,8 +75,10 @@ public class Empleado implements Serializable {
 
     //Especificar como quieres que se guarde el formato de la fecha
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @FutureOrPresent(message = "La fecha de Alta no puede ser inferior a la fecha actual")
     private LocalDate fechaAlta;
 
+    @DecimalMin(value = "1000.00", inclusive = true, message = "El salario no puede ser inferior a 1000")
     private BigDecimal salario;
 
     //Relacionar empleado con departamento
