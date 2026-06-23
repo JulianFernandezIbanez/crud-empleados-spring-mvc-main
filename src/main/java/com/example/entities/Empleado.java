@@ -79,6 +79,7 @@ public class Empleado implements Serializable {
     private LocalDate fechaAlta;
 
     @DecimalMin(value = "1000.00", inclusive = true, message = "El salario no puede ser inferior a 1000")
+    //@Positive(message = "El salario no puede ser negativo")
     private BigDecimal salario;
 
     //Relacionar empleado con departamento
