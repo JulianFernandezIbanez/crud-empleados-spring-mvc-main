@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.entities.Correo;
 import com.example.entities.Empleado;
 import com.example.entities.Telefono;
+import com.example.services.CorreoService;
 import com.example.services.DepartamentoService;
 import com.example.services.EmpleadoService;
+import com.example.services.TelefonoService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,8 @@ public class EmpleadoController {
 
 	private final EmpleadoService empleadoService;
 	private final DepartamentoService departamentoService;
+	private final TelefonoService telefonoService;
+	private final CorreoService correoService;
 
     @GetMapping("/listar")
     public String listarempleados(Model model){
@@ -131,6 +136,15 @@ public class EmpleadoController {
 			empleado.setEmails(dirCorreos);
 		}
 
+		//Antes de persisitir el empleado eliminar correos y telefonos si tiene
+		if (telefonoService.existsByEmpleado(empleado)) {
+			telefonoService.deleteByEmpleado(empleado);
+		}
+
+		if (correoService.existsByEmpleado(empleado)) {
+			correoService.deleteByEmpleado(empleado);
+		}
+
 		empleadoService.saveEmpleado(empleado);
 
 		return "redirect:/empleados/listar";
@@ -138,12 +152,66 @@ public class EmpleadoController {
 
 	//Metodo que muestra los detalles de un empleado cuyo id se recibe como parametro
 	@GetMapping("/detalles/{id}")
-	public String DetallesEmpleado(Model model,
+	public String detallesEmpleado(Model model,
 		@PathVariable(name = "id", required = true) int empleado_id) {
 
 		model.addAttribute("empleado", empleadoService.getEmpleadoById(empleado_id));
 
 		return "detalles";
+
+	}
+	
+	//Metodo para actualizar un empleado
+	//Muestra en el formulario los datos del empleado a actualizar
+	@GetMapping("/update/{id}")
+	public String actualizarEmpleado(Model model,
+		@PathVariable(name = "id", required = true) int empleado_id) {
+
+		Empleado empleado = empleadoService.getEmpleadoById(empleado_id);
+
+		model.addAttribute("empleado", empleado);
+		model.addAttribute("departamentos",departamentoService.getAllDepartamentos());
+
+		//Procesar los telefonos y correos en el controller 
+		// ya que no es aconsejable hacerlo en la vista
+
+		Set<Telefono> telefonos = empleado.getTelefonos();
+		Set<Correo> correos = empleado.getEmails();
+
+		if (telefonos.size() > 0) {
+			
+			String numTlf = telefonos.stream().map(telefono -> telefono.getNumero()).collect(Collectors.joining(";"));
+			model.addAttribute("telefonos", numTlf);
+
+		}
+
+		if (correos.size() > 0) {
+			
+			String emails = correos.stream().map(correo -> correo.getEmail()).collect(Collectors.joining(";"));
+			model.addAttribute("emails", emails);
+
+		}
+
+		//Comprobar si el empleado tiene una foto
+		String foto = empleado.getFoto();
+
+		if (foto != null) {
+			
+			model.addAttribute("foto", foto);
+
+		}
+
+		return "formularioAltaModificacion";
+	}
+	
+	//Metodo para eliminar un empleado
+	@GetMapping("/delete/{id}")
+	public String deleteEmpleado(Model model,
+		@PathVariable(name = "id", required = true) int empleado_id) {
+
+		empleadoService.deleteEmpleadoById(empleado_id);
+
+		return "redirect:/empleados/listar";
 
 	}
 	

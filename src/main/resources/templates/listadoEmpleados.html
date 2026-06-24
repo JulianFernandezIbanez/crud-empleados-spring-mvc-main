@@ -29,6 +29,8 @@
 					<td th:text="${empleado.genero}"></td>
 					<td th:text="${empleado.salario}"></td>
 					<td><a th:href="@{/empleados/detalles/}+${empleado.id}">Detalles</a></td>
+					<td><a th:href="@{/empleados/update/}+${empleado.id}">Modificar</a></td>
+					<td><a th:href="@{/empleados/delete/}+${empleado.id}">Eliminar</a></td>
 				</tr>
 			</tbody>
 		</table>
