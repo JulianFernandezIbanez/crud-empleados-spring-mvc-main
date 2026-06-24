@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.entities.Correo;
@@ -134,5 +135,17 @@ public class EmpleadoController {
 
 		return "redirect:/empleados/listar";
 	}
+
+	//Metodo que muestra los detalles de un empleado cuyo id se recibe como parametro
+	@GetMapping("/detalles/{id}")
+	public String DetallesEmpleado(Model model,
+		@PathVariable(name = "id", required = true) int empleado_id) {
+
+		model.addAttribute("empleado", empleadoService.getEmpleadoById(empleado_id));
+
+		return "detalles";
+
+	}
+	
 
 }

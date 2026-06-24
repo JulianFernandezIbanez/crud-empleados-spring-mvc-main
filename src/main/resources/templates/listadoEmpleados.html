@@ -28,6 +28,7 @@
 					<td th:text="${empleado.fechaAlta}"></td>
 					<td th:text="${empleado.genero}"></td>
 					<td th:text="${empleado.salario}"></td>
+					<td><a th:href="@{/empleados/detalles/}+${empleado.id}">Detalles</a></td>
 				</tr>
 			</tbody>
 		</table>

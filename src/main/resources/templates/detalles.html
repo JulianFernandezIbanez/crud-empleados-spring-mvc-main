@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Detalles</title>
+    </head>
+
+    <body>
+        <h1 th:text="'Detalles del empleado: '+ ${empleado.Nombre}+ ' '+ ${empleado.primerApellido}+ ' ' + ${empleado.segundoApellido}"></h1>
+        <h2 th:text="'Departamento: '+ ${empleado.departamento.Nombre}"></h2>
+
+        <div th:if="${empleado.emails.size > 0}">
+            <h2>Correos</h2>
+            <ul>
+                <li th:each="correo : ${empleado.emails}" th:text="${correo.email}"></li>
+            </ul>
+        </div>
+
+        <div th:if="${empleado.telefonos.size > 0}">
+            <h2>Telefonos</h2>
+            <ul>
+                <li th:each="telefono : ${empleado.telefonos}" th:text="${telefono.numero}"></li>
+            </ul>
+        </div>
+
+        <div th:if="${empleado.foto != null}">
+            <h2>Foto del Empleado</h2>
+            <img th:src ="@{/imagenes/} + ${empleado.foto}">
+        </div>
+
+        <a th:href="@{/empleados/listar}">Volver</a>
+        <a th:href="@{/empleados/alta}">Modificar</a>
+    </body>
+</html>
