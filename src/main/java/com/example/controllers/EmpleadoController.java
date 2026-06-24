@@ -1,5 +1,8 @@
 package com.example.controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,7 +70,8 @@ public class EmpleadoController {
 		BindingResult result,
 		@RequestParam(name = "numerostlf") String numtlf, 
 		@RequestParam(name = "correos") String emails,
-		Model model)
+		Model model,
+		@RequestParam(name = "file", required = false) MultipartFile file)
 	{
 
 		//Comprobacion de errores en la informacion recibida del formulario
@@ -75,6 +80,28 @@ public class EmpleadoController {
 			model.addAttribute("departamentos",departamentoService.getAllDepartamentos());
 
 			return "formularioAltaModificacion";
+
+		}
+
+		//Preguntar si me ha llegado una imagen para el empleado
+		//Si es asi se guardara el nombre de la imagen en la propiedad, atributo o variable miembro de la clase foto
+		//Y guardar el contenido como un archivo en el sistema de archivos (file system) del servidor
+
+		if (file != null && !file.isEmpty()) {
+			
+			Path relativePath = Paths.get("src/main/resources/static/imagenes/");
+			String absolutePath = relativePath.toFile().getAbsolutePath();
+			Path completePath = Paths.get(absolutePath + "/" + file.getOriginalFilename());
+
+			try {
+
+				byte[] bytesImagenRecibida = file.getBytes();
+				Files.write(completePath, bytesImagenRecibida);
+				empleado.setFoto(file.getOriginalFilename());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 			

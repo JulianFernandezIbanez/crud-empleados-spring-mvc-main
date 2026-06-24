@@ -14,7 +14,7 @@
 		<h1>Formulario de Alta o Modificacion</h1>
 		<fieldset>
 			<legend>Formulario</legend>
-			<form th:action="@{/empleados/persistir}" method="post" th:object="${empleado}">
+			<form th:action="@{/empleados/persistir}" method="post" th:object="${empleado}" enctype="multipart/form-data">
 				<input type="hidden" th:field="*{id}">
 				<div>
 					<label for="nombre">Nombre: </label> 
@@ -75,6 +75,11 @@
 				<div>
 					<label for="correos">Correos: </label> 
 					<input type="text" id="correos" name="correos" placeholder="Mas de 1 separado por ;">
+				</div>
+				<div>
+					<label for="file">Imagen del empleado</label>
+					<br>
+					<input type="file" id="file" name="file" title="Seleccione la imagen del empleado">
 				</div>
 				<input type="submit" value="Alta/Modificacion">
 			</form>
