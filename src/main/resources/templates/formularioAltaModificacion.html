@@ -81,6 +81,10 @@
 					<br>
 					<input type="file" id="file" name="file" title="Seleccione la imagen del empleado" th:value="${foto}">
 				</div>
+				<div th:if="${empleado.foto != null && empleado.id != 0}">
+					<h4>Foto actual del empleado</h4>
+					<img th:src ="@{/imagenes/} + ${empleado.foto}">
+				</div>
 				<input type="submit" value="Alta/Modificacion">
 			</form>
 		</fieldset>

@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -137,13 +138,16 @@ public class EmpleadoController {
 		}
 
 		//Antes de persisitir el empleado eliminar correos y telefonos si tiene
-		if (telefonoService.existsByEmpleado(empleado)) {
-			telefonoService.deleteByEmpleado(empleado);
+		if (empleado.getId() != 0) {
+			if (telefonoService.existsByEmpleado(empleado)) {
+				telefonoService.deleteByEmpleado(empleado);
+			}
+
+			if (correoService.existsByEmpleado(empleado)) {
+				correoService.deleteByEmpleado(empleado);
+			}
 		}
 
-		if (correoService.existsByEmpleado(empleado)) {
-			correoService.deleteByEmpleado(empleado);
-		}
 
 		empleadoService.saveEmpleado(empleado);
 
@@ -208,6 +212,23 @@ public class EmpleadoController {
 	@GetMapping("/delete/{id}")
 	public String deleteEmpleado(Model model,
 		@PathVariable(name = "id", required = true) int empleado_id) {
+
+		Empleado empleado = empleadoService.getEmpleadoById(empleado_id);
+
+		String foto = empleado.getFoto();
+
+		Path relativePath = Paths.get("src/main/resources/static/imagenes/");
+		String absolutePath = relativePath.toFile().getAbsolutePath();
+		Path completePath = Paths.get(absolutePath + "/" + foto);
+
+		if (foto != null) {
+			try {
+				Files.delete(completePath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		empleadoService.deleteEmpleadoById(empleado_id);
 
