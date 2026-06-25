@@ -94,13 +94,13 @@ public class EmpleadoController {
 		//Si es asi se guardara el nombre de la imagen en la propiedad, atributo o variable miembro de la clase foto
 		//Y guardar el contenido como un archivo en el sistema de archivos (file system) del servidor
 
+
 		if (file != null && !file.isEmpty()) {
 			
-			Path relativePath = Paths.get("src/main/resources/static/imagenes/");
-			String absolutePath = relativePath.toFile().getAbsolutePath();
-			Path completePath = Paths.get(absolutePath + "/" + file.getOriginalFilename());
-
 			try {
+				Path relativePath = Paths.get("src/main/resources/static/imagenes/");
+				String absolutePath = relativePath.toFile().getAbsolutePath();
+				Path completePath = Paths.get(absolutePath + "/" + file.getOriginalFilename());
 
 				byte[] bytesImagenRecibida = file.getBytes();
 				Files.write(completePath, bytesImagenRecibida);
@@ -109,7 +109,10 @@ public class EmpleadoController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else if(empleado.getId() != 0){
 
+			Empleado empleadoAntiguo = empleadoService.getEmpleadoById(empleado.getId());
+			empleado.setFoto(empleadoAntiguo.getFoto());
 		}
 			
 		/*LOG.info("Empleado recibido :");
@@ -147,7 +150,6 @@ public class EmpleadoController {
 				correoService.deleteByEmpleado(empleado);
 			}
 		}
-
 
 		empleadoService.saveEmpleado(empleado);
 
